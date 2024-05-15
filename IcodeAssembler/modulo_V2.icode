@@ -1,0 +1,43 @@
+// X = ___
+// R0 = ___
+MOVE 0, RD, 4
+// Y = ___
+// R1 = ___
+MOVE 1, RD, 2
+MOVE 2, RD, END
+// If x <= 0: goto end
+JLE 0, 2
+// If y <= 0: goto end
+JLE 1, 2
+
+// Do{
+
+	// X -= y
+// }while x >=0
+//---
+//R1 = -R1
+OP 1, NEG
+//R2 = pc
+OP 2, SAVEPC
+// R0 += R1
+ADD 0, 1
+//R3 = R0
+LOAD 3, 0
+//R3 = -R3
+OP 3, NEG
+//if r3 <= 0 jump to r2
+JLE 3, 2
+//---
+//R1 = -R1 //to reset state
+OP 1, NEG
+// R0 += r1
+ADD 0, 1
+//save
+MOVE 2, RD, 0xD0
+WRITE 0, 2
+HALT
+(END)
+MOVE 0, RD, 0
+MOVE 2, RD, 0xD0
+WRITE 0, 2
+HALT

@@ -1,0 +1,6 @@
+//The following should not jump,
+//so three steps should end up with the PC at address 5, not 20:
+
+MOVE 0, RD, -10
+MOVE 1, RD, 20
+JLE 0, 1

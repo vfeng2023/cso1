@@ -1,0 +1,65 @@
+//Create a binary program (i.e., a file containing hex bytes) that runs in this language; name the file fib.binary.
+
+//When run in a simulator (yours or ours), fib.binary should change the contents of memory for all addresses i ≥ C016, placing in address i the i-0xC0th Fibonacci number (modulo 256, since these are bytes).
+
+//Once 0xC0 through 0xFF are set, halt by running an instruction with the reserved bit set.
+
+//The file fib.binary itself must not contain more than C016 (19210) hexadecimal bytes.
+
+//It should be the case that running your simulator on fib.binary for many cycles should result in output ending with the following:
+//PSEUDOCODE		
+//let  0xco store 1
+MOVE 0, RD, 0XC0
+MOVE 1, RD, 1
+WRITE 1,0
+//load 0xc0
+MOVE 0, RD, 0XC1
+WRITE 1, 0
+//move 1
+//let 0xc1 store 1
+//load 0xc1
+//move 1
+//memory counter = 0xc2 -- STORED AT 0X80
+MOVE 0, RD, 0X80
+MOVE 1, RD, 0XC2
+WRITE 1, 0
+//save pc
+OP 3, SAVEPC
+//OPERATIONS
+//GET CURRENT MEMORY ADDRESS AND STORE IT IN 0
+// MOVE 1, RD, 0X80
+// LOADM 2, 1
+// LOADM 0, 2 //R0 = NEXT MEMORY ADDRESS
+
+// COPY PREVIOUS VALUE TO R0
+// LOADM
+//MEMLOC = READ 0X80
+MOVE 0, RDA, 0X80
+//DECREMENT
+MOVE 0, PLUS, -1
+//SAVE VALUE TO R2
+LOADM 2, 0
+//DECREMENT
+MOVE 0, PLUS, -1
+//SAVE VALUE TO R1
+
+LOADM 1, 0
+//ADD R1 TO R2, SAVE IN R2
+ADD 2, 1
+
+//SAVE TO MEMORY ADDRESS (WHICH IS STORED AT 0)
+MOVE 0, PLUS, 2
+WRITE 2, 0
+//INCREMENT 0X80
+MOVE 0, RDA, 0X80
+MOVE 0, PLUS, 1
+MOVE 1, RD, 0X80
+WRITE 0,1
+
+// WHILE If memorycounter - 0xFF <= 0, JUMP TO START
+MOVE 0, RD, 0X80
+LOADM 1, 0
+MOVE 1, PLUS, -255
+JLE 1, 3
+//jump to end
+HALT

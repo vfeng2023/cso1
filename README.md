@@ -1,2 +1,2 @@
 # cso1
-Course Material for University of Virginia's Computer System and organizations 1 course
+This github repository contains the coursework for the University of Virginia's Computer Systems and Organizations course.

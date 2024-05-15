@@ -1,0 +1,79 @@
+//compute the modulo of a number
+//LOAD IN ARGUMENTS AT 0X01 AND 0X03
+//COMPUTE THE VALUE OF M[0X01] MOD M[0X03]
+//SAVE RESULT TO 0XD0
+//HALT
+
+//0x80 and above are variables 
+
+//x = 0x01 val
+MOVE 0, RD, 5
+MOVE 2, RD, 2
+//CHECK IF X IS ZERO
+MOVE 1, RD, END
+JLE 0, 1
+//CHECK IF Y IS LESS THAN 0
+JLE 2, 1
+MOVE 1, RD, 0X80
+WRITE 0, 1 
+//CHECK IF IT IS ZERO
+
+// OP 0, LGNOT
+// OP 0, LGNOT
+// OP 2, SAVEPC
+// JLE 0, 2
+//y = 0x03 val
+MOVE 1, RD, 0X81
+WRITE 2, 1
+//let z = 0
+MOVE 0, RD, 0X82
+MOVE 1, RD, 0
+WRITE 1, 0
+
+//while z < x:
+//SPOT = PC
+OP 3, SAVEPC
+	// z += y
+
+	//LOAD Z INTO R0
+	MOVE 0, RDA, 0X82
+	//LOAD Y INTO R1
+	MOVE 1, RDA, 0X81
+	//ADD
+	ADD 0, 1
+	//SAVE TO Z
+	MOVE 2, RD, 0X82
+	WRITE 0, 2
+//JUMP TO PC IF Z < X --> Z - X + 1 <= 0
+MOVE 0, RDA, 0X82 //R0 = Z
+MOVE 1, RDA, 0X80 //R1 = X
+OP 1, NEG
+ADD 0, 1
+MOVE 0, PLUS, 1
+JLE 0, 3
+//z -= x
+
+MOVE 0, RDA,0X82
+MOVE 1, RDA, 0X80
+OP 1, NEG
+ADD 0, 1
+//save z to 0xd0
+MOVE 2, RD, 0XD0
+WRITE 0, 2
+
+//CHECK IF X < Y
+MOVE 0, RDA, 0X80
+MOVE 1, RDA, 0X81
+OP 1, NEG
+ADD 0, 1
+MOVE 2, RD, SMALLERX
+JLE 0, 2
+
+(END)
+HALT
+
+(SMALLERX)
+MOVE 3, RD, 0XD0
+MOVE 0, RDA, 0X80
+WRITE 0, 3
+HALT

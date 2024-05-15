@@ -1,0 +1,6 @@
+// should produce 68 23 06 60 20 44 80 as result
+MOVE 2, RD, 0x23
+LOAD 1,2
+MOVE 0, RD, 0x20
+WRITE 1, 0
+HALT
